@@ -135,11 +135,6 @@ const Navbar = () => {
       path: `/dashboard`,
     },
     {
-      text: "News",
-      icon: <ArticleIcon />,
-      path: `/dashboard/news`,
-    },
-    {
       text: "Logout",
       icon: <LogoutIcon />,
       path: "/",
@@ -170,7 +165,7 @@ const Navbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            ARIP MEDIA
+            VDJ KUSH
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography
@@ -248,8 +243,8 @@ const Navbar = () => {
       <StyledDrawer variant="permanent" open={open}>
         <DrawerHeader>
           <img
-            src="/arip_media_logo.png"
-            alt="Arip Media Logo"
+            src="/Leonardo_Phoenix_10_a_stunning_cursive_logo_with_an_italicized_0-removebg-preview.png"
+            alt="Vdj Kush Logo"
             style={{
               height: "70px",
               width: "80%",

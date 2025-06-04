@@ -23,7 +23,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const API_BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "http://38.242.243.113:4035" // Production API URL
+    ? "http://38.242.243.113:5035" // Production API URL
     : ""; // Empty for development (will use relative paths)
 
 const Login = () => {
@@ -59,7 +59,6 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // First try admin login
       const adminResponse = await fetch(`${API_BASE_URL}/api/admin/login`, {
         method: "POST",
         headers: {
@@ -68,52 +67,22 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
 
-      if (adminResponse.ok) {
-        const adminData = await adminResponse.json();
-        localStorage.setItem("token", adminData.token);
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ ...adminData.data, isAdmin: true })
-        );
-        localStorage.setItem("loginType", "admin");
-
-        setSnackbar({
-          open: true,
-          message: "Admin login successful! Redirecting to dashboard...",
-          severity: "success",
-        });
-
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 2000);
-        return;
+      if (!adminResponse.ok) {
+        const errorData = await adminResponse.json();
+        throw new Error(errorData.message || "Login failed");
       }
 
-      // If admin login fails, try regular user login
-      const userResponse = await fetch(`${API_BASE_URL}/api/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const userData = await userResponse.json();
-
-      if (!userResponse.ok) {
-        throw new Error(userData.message || "Login failed");
-      }
-
-      localStorage.setItem("token", userData.token);
+      const adminData = await adminResponse.json();
+      localStorage.setItem("token", adminData.token);
       localStorage.setItem(
         "user",
-        JSON.stringify({ ...userData.data, isAdmin: false })
+        JSON.stringify({ ...adminData.data, isAdmin: true })
       );
-      localStorage.setItem("loginType", "user");
+      localStorage.setItem("loginType", "admin");
 
       setSnackbar({
         open: true,
-        message: "Login successful! Redirecting to dashboard...",
+        message: "Admin login successful! Redirecting to dashboard...",
         severity: "success",
       });
 
@@ -135,18 +104,26 @@ const Login = () => {
   return (
     <>
       <Container
-        maxWidth="lg"
+        maxWidth={false}
+        disableGutters
         sx={{
-          height: "100vh",
+          minHeight: "100vh",
+          width: "100vw",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           p: { xs: 2, md: 3 },
+          backgroundImage:
+            'url("/Leonardo_Phoenix_10_A_vibrant_highenergy_illustration_of_a_sle_0.jpg")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <Paper
-          elevation={3}
+          elevation={0}
           sx={{
+            backgroundColor: "transparent",
+            boxShadow: "none",
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             width: "100%",
@@ -177,14 +154,28 @@ const Login = () => {
                 width: "100%",
                 height: "100%",
                 minHeight: isMobile ? "140px" : "100%",
-                backgroundImage: 'url("/IMG-20250506-WA0004.jpg")',
-                backgroundSize: isMobile ? "contain" : "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundColor: "#1ccfcf",
-                zIndex: 2,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 1,
               }}
-            />
+            >
+              <video
+                src="/VID-20250529-WA0003.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                }}
+              />
+            </Box>
           </Box>
 
           {/* Login Form Section */}
@@ -194,7 +185,7 @@ const Login = () => {
               display: "flex",
               flexDirection: "column",
               p: { xs: 2, md: 2.5 },
-              bgcolor: "background.paper",
+              bgcolor: "rgba(255,255,255,0.2)",
             }}
           >
             <Box
@@ -214,6 +205,8 @@ const Login = () => {
                   fontWeight: 600,
                   textAlign: "center",
                   fontSize: { xs: "1.4rem", md: "1.8rem" },
+                  color: "#fff",
+                  textShadow: "0 2px 8px rgba(0,0,0,0.7)",
                 }}
               >
                 Welcome Back
@@ -232,7 +225,17 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   size="small"
-                  sx={{ mb: 1.5 }}
+                  sx={{ mb: 2 }}
+                  InputProps={{
+                    style: {
+                      background: "rgba(0,0,0,0.4)",
+                      color: "#fff",
+                      borderRadius: 6,
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: { color: "#fff" },
+                  }}
                 />
                 <TextField
                   margin="normal"
@@ -246,7 +249,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   size="small"
-                  sx={{ mb: 1 }}
+                  sx={{ mb: 2 }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -260,25 +263,16 @@ const Login = () => {
                         </IconButton>
                       </InputAdornment>
                     ),
+                    style: {
+                      background: "rgba(0,0,0,0.4)",
+                      color: "#fff",
+                      borderRadius: 6,
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: { color: "#fff" },
                   }}
                 />
-
-                <Box sx={{ textAlign: "right", mb: 1.5 }}>
-                  <Link
-                    component={RouterLink}
-                    to="/forgot-password"
-                    variant="body2"
-                    sx={{
-                      color: "primary.main",
-                      textDecoration: "none",
-                      "&:hover": {
-                        textDecoration: "underline",
-                      },
-                    }}
-                  >
-                    Forgot password?
-                  </Link>
-                </Box>
 
                 <Button
                   type="submit"
@@ -287,9 +281,14 @@ const Login = () => {
                   disabled={loading}
                   sx={{
                     py: 1,
-                    bgcolor: "primary.main",
+                    mb: 2,
+                    bgcolor: "#1976d2",
+                    color: "#fff",
+                    fontWeight: 600,
+                    borderRadius: 6,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
                     "&:hover": {
-                      bgcolor: "primary.dark",
+                      bgcolor: "#115293",
                     },
                   }}
                 >
@@ -299,29 +298,6 @@ const Login = () => {
                     "Sign In"
                   )}
                 </Button>
-
-                <Grid container justifyContent="center" sx={{ mt: 1.5 }}>
-                  <Grid item>
-                    <Typography variant="body2" sx={{ display: "inline" }}>
-                      Don't have an account?{" "}
-                    </Typography>
-                    <Link
-                      component={RouterLink}
-                      to="/register"
-                      variant="body2"
-                      sx={{
-                        color: "primary.main",
-                        textDecoration: "none",
-                        fontWeight: 600,
-                        "&:hover": {
-                          textDecoration: "underline",
-                        },
-                      }}
-                    >
-                      Sign Up
-                    </Link>
-                  </Grid>
-                </Grid>
               </Box>
             </Box>
           </Box>
