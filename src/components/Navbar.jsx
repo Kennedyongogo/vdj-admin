@@ -24,6 +24,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArticleIcon from "@mui/icons-material/Article";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import EventIcon from "@mui/icons-material/Event";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 const drawerWidth = 270;
 
@@ -133,6 +136,21 @@ const Navbar = () => {
       text: "Home",
       icon: <HomeIcon />,
       path: `/dashboard`,
+    },
+    {
+      text: "Events",
+      icon: <EventIcon />,
+      path: `/dashboard/events`,
+    },
+    {
+      text: "Mixes",
+      icon: <MusicNoteIcon />,
+      path: `/dashboard/mixes`,
+    },
+    {
+      text: "Trending",
+      icon: <TrendingUpIcon />,
+      path: `/dashboard/trending`,
     },
     {
       text: "Logout",

@@ -2,6 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import Mixes from "./components/Mixes";
+import Events from "./components/Events";
+import Trending from "./components/Trending";
 import { styled } from "@mui/material/styles";
 import "./App.css";
 import {
@@ -73,6 +76,10 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Navbar />}>
+            <Route index element={<Mixes />} />
+            <Route path="mixes" element={<Mixes />} />
+            <Route path="events" element={<Events />} />
+            <Route path="trending" element={<Trending />} />
           </Route>
         </Routes>
       </Router>
