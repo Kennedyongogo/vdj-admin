@@ -13,6 +13,13 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Avatar,
+  Divider,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
@@ -27,6 +34,10 @@ import ArticleIcon from "@mui/icons-material/Article";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import EventIcon from "@mui/icons-material/Event";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import CloseIcon from "@mui/icons-material/Close";
+import EmailIcon from "@mui/icons-material/Email";
+import BadgeIcon from "@mui/icons-material/Badge";
 
 const drawerWidth = 270;
 
@@ -105,6 +116,8 @@ const Navbar = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [accountDialogOpen, setAccountDialogOpen] = useState(false);
+  const [adminDetails, setAdminDetails] = useState(null);
   const openMenu = Boolean(anchorEl);
   const [userName, setUserName] = useState("");
 
@@ -119,9 +132,43 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  const handleProfileClick = () => {
-    navigate("/dashboard/account");
+  const handleProfileClick = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user"));
+      const adminId = user?.id;
+
+      if (!token || !adminId) {
+        console.error("No token or admin ID found");
+        return;
+      }
+
+      const response = await fetch(
+        `http://localhost:3003/api/admin/${adminId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch admin details");
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setAdminDetails(data.data);
+        setAccountDialogOpen(true);
+      }
+    } catch (error) {
+      console.error("Error fetching admin details:", error);
+    }
     handleMenuClose();
+  };
+
+  const handleCloseAccountDialog = () => {
+    setAccountDialogOpen(false);
   };
 
   const handleNavigation = (path) => {
@@ -151,6 +198,11 @@ const Navbar = () => {
       text: "Trending",
       icon: <TrendingUpIcon />,
       path: `/dashboard/trending`,
+    },
+    {
+      text: "Vibe",
+      icon: <ChatBubbleIcon />,
+      path: `/dashboard/vibe`,
     },
     {
       text: "Logout",
@@ -305,6 +357,102 @@ const Navbar = () => {
         <Toolbar />
         <Outlet />
       </Box>
+
+      {/* Account Details Dialog */}
+      <Dialog
+        open={accountDialogOpen}
+        onClose={handleCloseAccountDialog}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            bgcolor: "background.paper",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            bgcolor: "primary.main",
+            color: "white",
+            py: 2,
+          }}
+        >
+          Account Details
+          <IconButton
+            onClick={handleCloseAccountDialog}
+            sx={{ color: "white" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ py: 3 }}>
+          {adminDetails && (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                <Avatar
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    bgcolor: "primary.main",
+                    fontSize: "2rem",
+                  }}
+                >
+                  {adminDetails.username.charAt(0).toUpperCase()}
+                </Avatar>
+                <Box>
+                  <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                    {adminDetails.username}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Admin Account
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Divider />
+
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <BadgeIcon color="primary" />
+                  <Box>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Username
+                    </Typography>
+                    <Typography variant="body1">
+                      {adminDetails.username}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <EmailIcon color="primary" />
+                  <Box>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Email
+                    </Typography>
+                    <Typography variant="body1">
+                      {adminDetails.email}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 3, py: 2, bgcolor: "grey.50" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCloseAccountDialog}
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

@@ -165,9 +165,29 @@ const Mixes = () => {
     }
   };
 
-  const handlePlay = (mix) => {
-    setCurrentMix(mix);
-    setPlayModalOpen(true);
+  const handlePlay = async (mix) => {
+    try {
+      const token = localStorage.getItem("token");
+      // First, increment play count by fetching the specific mix
+      await fetch(`${API_BASE_URL}/api/mix/${mix.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Then open the play modal
+      setCurrentMix(mix);
+      setPlayModalOpen(true);
+
+      // Refresh the mixes list to update the play count
+      await fetchMixes();
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "Error playing mix",
+        severity: "error",
+      });
+    }
   };
 
   const handleClosePlayModal = () => {
@@ -501,17 +521,23 @@ const Mixes = () => {
                     >
                       {mix.description}
                     </Typography>
-                    <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
+                    <Box
+                      sx={{
+                        mt: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                      }}
+                    >
                       <Typography variant="caption" color="text.secondary">
                         Duration: {Math.floor(mix.duration / 60)}:
                         {(mix.duration % 60).toString().padStart(2, "0")}
                       </Typography>
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                        sx={{ ml: 2 }}
-                      >
+                      <Typography variant="caption" color="text.secondary">
                         Downloads: {mix.downloadCount}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Plays: {mix.playCount}
                       </Typography>
                     </Box>
                   </CardContent>
