@@ -24,6 +24,11 @@ const API_BASE_URL =
     ? "http://38.242.243.113:5035"
     : "http://localhost:3003";
 
+const WS_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "ws://38.242.243.113:5035"
+    : "ws://localhost:3003";
+
 const AdminVibeChat = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +68,7 @@ const AdminVibeChat = () => {
   useEffect(() => {
     fetchMessages();
     // Setup WebSocket connection
-    const ws = new WebSocket("ws://localhost:3003/ws/chat");
+    const ws = new WebSocket(`${WS_BASE_URL}/ws/chat`);
     ws.onopen = () => {
       console.log("Connected to chat server (admin)");
     };
