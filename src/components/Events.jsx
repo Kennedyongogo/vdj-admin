@@ -455,7 +455,11 @@ const Events = () => {
                     <CardMedia
                       component="img"
                       height="140"
-                      image={event.bannerUrl}
+                      image={
+                        event.bannerUrl.startsWith("http")
+                          ? event.bannerUrl
+                          : `${API_BASE_URL}${event.bannerUrl}`
+                      }
                       alt={event.name}
                     />
                   ) : (
