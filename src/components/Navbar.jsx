@@ -182,7 +182,7 @@ const Navbar = () => {
     {
       text: "Home",
       icon: <HomeIcon />,
-      path: `/dashboard`,
+      path: `/dashboard/home`,
     },
     {
       text: "Events",

@@ -6,6 +6,7 @@ import Mixes from "./components/Mixes";
 import Events from "./components/Events";
 import Trending from "./components/Trending";
 import AdminVibeChat from "./components/AdminVibeChat";
+import Home from "./components/Home";
 import { styled } from "@mui/material/styles";
 import "./App.css";
 import {
@@ -56,7 +57,7 @@ const AppContent = () => {
         palette: {
           mode: darkMode ? "dark" : "light",
           primary: {
-            main: "#1976d2",
+            main: "#19bdb7",
           },
           secondary: {
             main: "#dc004e",
@@ -77,7 +78,8 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Navbar />}>
-            <Route index element={<Mixes />} />
+            <Route index element={<Home />} />
+            <Route path="home" element={<Home />} />
             <Route path="mixes" element={<Mixes />} />
             <Route path="events" element={<Events />} />
             <Route path="trending" element={<Trending />} />
