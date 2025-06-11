@@ -707,7 +707,11 @@ const Mixes = () => {
               <audio
                 controls
                 style={{ width: "100%" }}
-                src={currentMix.fileUrl}
+                src={
+                  currentMix.fileUrl.startsWith("http")
+                    ? currentMix.fileUrl
+                    : `${API_BASE_URL}${currentMix.fileUrl}`
+                }
               />
             )}
             {currentMix &&
@@ -716,7 +720,11 @@ const Mixes = () => {
                 <video
                   controls
                   style={{ width: "100%" }}
-                  src={currentMix.fileUrl}
+                  src={
+                    currentMix.fileUrl.startsWith("http")
+                      ? currentMix.fileUrl
+                      : `${API_BASE_URL}${currentMix.fileUrl}`
+                  }
                 />
               )}
           </DialogContent>
