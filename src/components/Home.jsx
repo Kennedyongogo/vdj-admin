@@ -175,6 +175,7 @@ const Home = () => {
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -430,7 +431,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Event Status Distribution
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 <Pie data={statusPieData} options={chartOptions} />
               </Box>
             </Paper>
@@ -482,7 +490,14 @@ const Home = () => {
                   </Select>
                 </FormControl>
               </Box>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 <Bar data={monthlyBarData} options={chartOptions} />
               </Box>
             </Paper>
@@ -502,7 +517,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Events by Venue
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 <Bar data={venueBarData} options={chartOptions} />
               </Box>
             </Paper>
@@ -522,7 +544,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Public vs Private Events
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 <Pie data={publicPrivatePieData} options={chartOptions} />
               </Box>
             </Paper>
@@ -542,7 +571,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Average Ticket Price by Status
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 <Bar data={ticketPriceBarData} options={chartOptions} />
               </Box>
             </Paper>
@@ -664,7 +700,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Mix Type Distribution
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 {mixStats && (
                   <Pie data={mixFileTypePieData} options={chartOptions} />
                 )}
@@ -718,7 +761,14 @@ const Home = () => {
                   </Select>
                 </FormControl>
               </Box>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 <Bar data={mixMonthlyBarData} options={chartOptions} />
               </Box>
             </Paper>
@@ -738,7 +788,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Most Downloaded Mixes
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 {mixStats && (
                   <Bar data={mixDownloadedBarData} options={chartOptions} />
                 )}
@@ -760,7 +817,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Most Played Mixes
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 {mixStats && (
                   <Bar data={mixPlayedBarData} options={chartOptions} />
                 )}
@@ -782,7 +846,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Public vs Private Mixes
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 {mixStats && (
                   <Pie data={mixPublicPrivatePieData} options={chartOptions} />
                 )}
@@ -804,7 +875,14 @@ const Home = () => {
               <Typography variant="h6" gutterBottom>
                 Average File Size by Type
               </Typography>
-              <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  height: "400px",
+                }}
+              >
                 {mixStats && (
                   <Bar data={mixFileSizeBarData} options={chartOptions} />
                 )}

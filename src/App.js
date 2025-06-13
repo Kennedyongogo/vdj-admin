@@ -7,6 +7,8 @@ import Events from "./components/Events";
 import Trending from "./components/Trending";
 import AdminVibeChat from "./components/AdminVibeChat";
 import Home from "./components/Home";
+import Archive from "./components/Archive";
+import Services from "./components/Services";
 import { styled } from "@mui/material/styles";
 import "./App.css";
 import {
@@ -82,6 +84,8 @@ const AppContent = () => {
             <Route path="home" element={<Home />} />
             <Route path="mixes" element={<Mixes />} />
             <Route path="events" element={<Events />} />
+            <Route path="services" element={<Services />} />
+            <Route path="archive" element={<Archive />} />
             <Route path="trending" element={<Trending />} />
             <Route path="vibe" element={<AdminVibeChat />} />
           </Route>

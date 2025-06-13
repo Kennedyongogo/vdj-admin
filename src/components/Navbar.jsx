@@ -38,6 +38,8 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import CloseIcon from "@mui/icons-material/Close";
 import EmailIcon from "@mui/icons-material/Email";
 import BadgeIcon from "@mui/icons-material/Badge";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const drawerWidth = 270;
 
@@ -193,6 +195,16 @@ const Navbar = () => {
       text: "Mixes",
       icon: <MusicNoteIcon />,
       path: `/dashboard/mixes`,
+    },
+    {
+      text: "Services",
+      icon: <SettingsIcon />,
+      path: `/dashboard/services`,
+    },
+    {
+      text: "Archive",
+      icon: <ArchiveIcon />,
+      path: `/dashboard/archive`,
     },
     {
       text: "Trending",
